@@ -1,0 +1,175 @@
+<style>
+    /* Flickity */
+    .flickity-viewport {
+width: 100%;
+        overflow: visible !important;
+      }
+      
+      .flickity-prev-next-button {
+      width: 40px !important;
+      height: 40px !important;
+      }
+      
+      .flickity-button-icon {
+      height: 20px !important;
+    	width: 20px !important;
+    	left: 25% !important;
+    	top: 27% !important;
+      }
+      
+      .flickity-prev-next-button.previous {
+    display: block !important;
+}
+  
+  .flickity-page-dots {
+    display: none !important;
+  }
+  
+  .dots {
+    display: none !important;
+  }
+  
+  .flickity-button {
+  color: #776fad !important;
+  }
+  
+  @media (max-width: 479px) {
+    .flickity-prev-next-button {
+        display: none !important;
+    }
+}
+
+@media (max-width: 479px) {
+.flickity-prev-next-button.previous {
+display: none !important;
+    }
+}
+  
+    /* Hubspot Form */
+    .form-columns-3 {
+      max-width: 100% !important;
+      display: flex;
+      grid-row-gap: 16px;
+      gap: 16px;
+      margin-bottom: 16px !important;
+    }
+  
+    .form-columns-2 {
+      max-width: 100% !important;
+      display: flex;
+      grid-row-gap: 16px;
+      gap: 16px;
+      margin-bottom: 16px !important;
+    }
+  
+    .form-columns-1 {
+      max-width: 100% !important;
+      margin-bottom: 16px !important;
+    }
+  
+    .legal-consent-container p {
+      font-size: 0.9rem !important;
+    }
+  
+    .hs-input {
+      width: 100% !important;
+    }
+  
+    .hbspt-form ul {
+      list-style-type: none;
+      padding-left: 0 !important;
+    }
+  
+    .hs-error-msg {
+      font-size: 0.9rem;
+      color: indianred;
+      margin-top: 4px !important;
+    }
+  
+    .hs-error-msg {
+      font-size: 0.9rem;
+      color: indianred;
+      margin-top: 4px !important;
+    }
+  
+    .hs-form-booleancheckbox-display {
+      display: flex;
+      flex-direction: row;
+    }
+  
+    .legal-consent-container .hs-form-booleancheckbox-display input {
+      width: 14px !important;
+      height: 14px;
+      margin-top: 6px !important;
+    }
+  
+    .submitted-message a {
+      border: 2px solid var(--oci_green-2);
+      border-radius: var(--standard-radius);
+      color: var(--oc_white);
+      text-align: center;
+      letter-spacing: .02rem;
+      text-transform: uppercase;
+      background-color: var(--oci_green-2);
+      margin-top: 16px;
+      padding: 24px 32px;
+      font-size: .95rem;
+      transition: all .25s cubic-bezier(.215, .61, .355, 1);
+      text-decoration: none;
+      width: fit-content;
+    }
+  
+    .submitted-message:hover a {
+      box-shadow: 2px 2px 6px -1px rgba(0, 0, 0, 0.2);
+      transform: translate(0px, -2px);
+    }
+  
+    .submitted-message {
+      display: flex;
+      flex-direction: column;
+      align-content: flex-start;
+      row-gap: 24px;
+    }
+  
+    label.hs-main-font-element {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: indianred;
+    }
+  
+    /* Typeform */
+  
+    [data-tf-popup="TGKUDmGe"] {
+      all: unset;
+      font-family: Raleway Variablefont Wght, Tahoma, sans-serif !important;
+      font-weight: 500 !important;
+      height: auto !important;
+      text-transform: uppercase;
+      line-height: normal !important;
+      font-size: 0.95rem !important;
+      padding: 24px 32px !important;
+      letter-spacing: .02rem;
+      border-radius: var(--standard-radius) !important;
+    }
+  
+    /* Fixed Call Button */
+    @media screen and (max-width: 767px) {
+      .fixed-call-btn {
+        right: -100px;
+        /* Initially position the button off-screen */
+        bottom: 10px;
+        transition: right 0.3s ease-out, box-shadow 0.3s ease-out;
+      }
+  
+      .fixed-call-btn.show {
+        right: 10px;
+        /* Slide in to its normal position */
+      }
+    }
+    
+    @media (max-width: 1178px) and (min-width: 992px) {
+    .svh-menu {
+        display: none;
+    }
+}
+  </style>
