@@ -1,0 +1,13 @@
+    /* Fixed Call Button */
+    @media screen and (max-width: 767px) {
+        .fixed-call-btn {
+            right: -100px;
+            bottom: 10px;
+            transition: right 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+
+        /* Call Button Move */
+        .fixed-call-btn.show {
+            right: 10px;
+        }
+    }
