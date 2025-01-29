@@ -1,0 +1,51 @@
+@media (min-width: 992px) {
+    .fixed-call-btn.fixed-call-btn--purple {
+    display: none !important;
+    }
+    }
+    
+    /* Flickity */
+      .flickity-viewport {
+      width: 100%;
+      overflow: visible !important;
+    }
+      
+    .flickity-prev-next-button {
+      width: 40px !important;
+      height: 40px !important;
+    }
+    
+    .flickity-button-icon {
+      height: 20px !important;
+      width: 20px !important;
+      left: 25% !important;
+      top: 27% !important;
+    }
+    
+    .flickity-prev-next-button.previous {
+      display: block !important;
+    }
+    
+    .flickity-page-dots {
+      display: none !important;
+    }
+    
+    .dots {
+      display: none !important;
+    }
+    
+    .flickity-button {
+      color: #776fad !important;
+    }
+    
+    @media (max-width: 479px) {
+      .flickity-prev-next-button {
+        display: none !important;
+      }
+    }
+    
+    @media (max-width: 479px) {
+      .flickity-prev-next-button.previous {
+        display: none !important;
+      }
+    }
