@@ -39,13 +39,15 @@ document.addEventListener("DOMContentLoaded", function() {
     function initialisePlayer(playerId) {
         if (!isYouTubeAPILoaded) return; // Safety check to ensure API is loaded
 
-        const startTime = parseInt('{{wf {&quot;path&quot;:&quot;start-time&quot;,&quot;type&quot;:&quot;Number&quot;\} }}', 10) || 0;
+        // Fetch data from dynamicVideoData
+        const videoData = window.dynamicVideoData.find(data => data.playerId === playerId);
+        if (!videoData) return;
 
         players[playerId] = new YT.Player(playerId, {
             height: '100%',
             width: '100%',
-            videoId: '{{wf {&quot;path&quot;:&quot;youtube-video-id&quot;,&quot;type&quot;:&quot;PlainText&quot;\} }}',
-            playerVars: { 'rel': 0, 'autoplay': 0, 'controls': 1, 'start': startTime },
+            videoId: videoData.videoId,
+            playerVars: { 'rel': 0, 'autoplay': 0, 'controls': 1, 'start': videoData.startTime },
             events: {
                 'onReady': onPlayerReady,
                 'onStateChange': onPlayerStateChange
@@ -79,7 +81,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Set up triggers for both instances
-    setupTrigger("video-trigger-1", "player-1");
-    setupTrigger("video-trigger-2", "player-2");
+    // Dynamically set up triggers based on dynamicVideoData
+    if (window.dynamicVideoData && Array.isArray(window.dynamicVideoData)) {
+        window.dynamicVideoData.forEach(data => {
+            setupTrigger(`video-trigger-${data.playerId.split('-')[1]}`, data.playerId);
+        });
+    }
 });
