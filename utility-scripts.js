@@ -46,3 +46,38 @@ window.addEventListener('resize', debounceUpdate);
 
 // Initial call
 updateFixedElementPosition();
+
+// Book a Call Mobile Movement
+document.addEventListener("DOMContentLoaded", function () {
+        const callBtn = document.querySelector('.fixed-call-btn');
+        let hasScrolled = false;
+
+        function handleScroll() {
+            if (window.scrollY > 0 && !hasScrolled) {
+                callBtn.classList.add('show');
+                hasScrolled = true;
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+    });
+
+// Menu Bar Adjustments
+document.addEventListener('DOMContentLoaded', () => {
+    const megaUnderResources = document.getElementById("mega-under-resources");
+    const megaResources = document.getElementById("mega-resources");
+
+    if (megaUnderResources && megaResources) {
+        megaResources.appendChild(megaUnderResources);
+    }
+});
+
+// Prevent Dropdown Window Closing on Tab Selection
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownTabs = document.querySelectorAll('.primary-dropdown-category');
+    dropdownTabs.forEach(tab => {
+        tab.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    });
+});
