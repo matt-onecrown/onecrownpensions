@@ -1,4 +1,18 @@
-    function updateFixedElementPosition() {
+// whenClicked to onClick
+window.onload = function () {
+    var anchors = document.querySelectorAll('[whenClicked]');
+    anchors.forEach(anchor => {
+        anchor.onclick = function () {
+            var code = this.getAttribute('whenClicked');
+            if (code) {
+                eval(code);
+            }
+        }
+    });
+}
+
+// Book a Call Positioning
+function updateFixedElementPosition() {
         var fixedElement = document.querySelector('.fixed-call-btn');
         var footer = document.querySelector('.s_footer');
         if (fixedElement && footer) {
