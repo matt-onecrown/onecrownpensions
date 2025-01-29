@@ -6,6 +6,13 @@
             transition: right 0.3s ease-out, box-shadow 0.3s ease-out;
         }
 
+        /* Nav Adjustment */
+@media (max-width: 1178px) and (min-width: 992px) {
+    .svh-menu {
+        display: none !important;
+    }
+}
+
         /* Call Button Move */
         .fixed-call-btn.show {
             right: 10px;
