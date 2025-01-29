@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+/* document.addEventListener("DOMContentLoaded", function() {
     let players = {};
     let isVideoTriggered = false;
     let isYouTubeAPILoaded = false;
@@ -86,5 +86,18 @@ document.addEventListener("DOMContentLoaded", function() {
         window.dynamicVideoData.forEach(data => {
             setupTrigger(`video-trigger-${data.playerId.split('-')[1]}`, data.playerId);
         });
+    }
+});
+*/ 
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log('Dynamic Video Data:', window.dynamicVideoData);
+
+    if (window.dynamicVideoData && Array.isArray(window.dynamicVideoData)) {
+        window.dynamicVideoData.forEach(data => {
+            console.log(`Player ID: ${data.playerId}, Start Time: ${data.startTime}, Video ID: ${data.videoId}`);
+        });
+    } else {
+        console.error('Dynamic Video Data is not available.');
     }
 });
