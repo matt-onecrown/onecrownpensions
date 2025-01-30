@@ -1,50 +1,78 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Tab Selection
-    const featuredTab = document.querySelector('a[data-w-tab="Featured"]');
-    const upNextTab = document.querySelector('a[data-w-tab="Up Next"]');
-    if (featuredTab && !featuredTab.offsetParent && upNextTab) {
-        upNextTab.classList.add('w--current');
-    }
-
-    // Copy to Clipboard
-    window.copyToClipboard = function() {
-        const copyText = document.getElementById("shareURL");
-        if (copyText) {
-            copyText.select();
-            document.execCommand("copy");
-            alert("Link copied to clipboard!");
-        }
+    // Convert whenClicked to onClick (Avoids eval() Security Issue)
+    window.onload = function () {
+        document.querySelectorAll('[whenClicked]').forEach(anchor => {
+            anchor.onclick = function () {
+                const code = this.getAttribute('whenClicked');
+                if (code) {
+                    try {
+                        new Function(code)(); // Replaces eval()
+                    } catch (error) {
+                        console.error('Error executing whenClicked attribute:', error);
+                    }
+                }
+            }
+        });
     };
 
-    // Search Focus
-    const searchTab = document.querySelector('#search-tab');
-    const searchInput = document.querySelector('.in-line-search');
-    if (searchTab && searchInput) {
-        searchTab.addEventListener('click', function() {
-            setTimeout(() => searchInput.focus(), 300);
-        });
+    // Optimised Book a Call Button Positioning (Uses IntersectionObserver)
+    function updateFixedElementPosition() {
+        var fixedElement = document.querySelector('.fixed-call-btn');
+        var footer = document.querySelector('.s_footer');
+
+        if (fixedElement && footer) {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        fixedElement.style.bottom = (entry.boundingClientRect.height + 10) + 'px';
+                    } else {
+                        fixedElement.style.bottom = '10px';
+                    }
+                });
+            });
+
+            observer.observe(footer);
+        }
+    }
+    updateFixedElementPosition();
+
+    // Book a Call Mobile Movement
+    const callBtn = document.querySelector('.fixed-call-btn');
+    if (callBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 0) {
+                callBtn.classList.add('show');
+            }
+        }, { once: true });
     }
 
-    // Announcement Bar Logic
+    // Menu Bar Adjustments
+    const megaUnderResources = document.getElementById("mega-under-resources");
+    const megaResources = document.getElementById("mega-resources");
+    if (megaUnderResources && megaResources) {
+        megaResources.appendChild(megaUnderResources);
+    }
+
+    // Prevent Dropdown Window Closing on Tab Selection
+    document.querySelectorAll('.primary-dropdown-category').forEach(tab => {
+        tab.addEventListener('click', event => event.stopPropagation());
+    });
+
+    // Announcement Bar Logic (Optimised to Prevent Excess Cloning)
     const wrapper = document.querySelector('.announcement-bar-text-wrapper');
     const textElement = document.querySelector('.announcement-bar-text');
+
     function duplicateTextElements() {
-        wrapper.querySelectorAll('.announcement-bar-text').forEach((el, index) => {
-            if (index > 0) el.remove();
-        });
         if (window.innerWidth <= 767 && wrapper && textElement) {
+            wrapper.innerHTML = ""; // Clears previous duplicates
             for (let i = 0; i < 3; i++) {
-                const clone = textElement.cloneNode(true);
-                wrapper.appendChild(clone);
+                wrapper.appendChild(textElement.cloneNode(true));
             }
         }
     }
     duplicateTextElements();
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(duplicateTextElements, 200);
-    });
+
+    window.addEventListener('resize', debounce(duplicateTextElements, 200));
 
     // Popup Logic
     const excludedUrls = [
@@ -53,45 +81,34 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
     const isExcludedPage = excludedUrls.includes(window.location.href);
     const isVideoPage = window.location.href.startsWith('https://www.onecrownpensions.com/ssas-video-hub/');
+
     if (!isExcludedPage) {
-        let visitCount = parseInt(localStorage.getItem('pageVisitCount') || '0', 10);
-        visitCount += 1;
+        let visitCount = parseInt(localStorage.getItem('pageVisitCount') || '0', 10) + 1;
         localStorage.setItem('pageVisitCount', visitCount.toString());
 
         let videoPageVisitCount = parseInt(localStorage.getItem('videoPageVisitCount') || '0', 10);
         if (isVideoPage) {
-            videoPageVisitCount += 1;
-            localStorage.setItem('videoPageVisitCount', videoPageVisitCount.toString());
+            localStorage.setItem('videoPageVisitCount', (++videoPageVisitCount).toString());
         }
 
         let popupDismissedTime = parseInt(localStorage.getItem('popupDismissedTime') || '0', 10);
         const now = Date.now();
-        const minDismissalTime = 120 * 60 * 1000;
+        const minDismissalTime = 120 * 60 * 1000; // 120 minutes
 
         if (popupDismissedTime && (now - popupDismissedTime >= minDismissalTime)) {
-            console.log("120 minutes have passed since last dismissal. Resetting dismissal time.");
             localStorage.removeItem('popupDismissedTime');
             popupDismissedTime = 0;
         }
 
         if (isVideoPage) {
             if (videoPageVisitCount === 2 && popupDismissedTime === 0) {
-                console.log("Second video page visit. Showing popup immediately.");
                 showPopup();
             }
-        } else {
-            if (visitCount % 2 === 0 && popupDismissedTime === 0) {
-                console.log("Non-video page. Conditions met. Popup will show after 45 seconds.");
-                setTimeout(showPopup, 45000);
-            }
+        } else if (visitCount % 2 === 0 && popupDismissedTime === 0) {
+            setTimeout(showPopup, 45000);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const popupClose = document.getElementById('popup-close');
-            if (popupClose) {
-                popupClose.addEventListener('click', dismissPopup);
-            }
-        });
+        document.getElementById('popup-close')?.addEventListener('click', dismissPopup);
     }
 
     function loadHubSpotForm() {
@@ -99,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (formContainer && !formContainer.hasChildNodes()) {
             const script = document.createElement('script');
             script.src = "//js.hsforms.net/forms/embed/v2.js";
-            script.onload = function() {
+            script.onload = function () {
                 hbspt.forms.create({
                     portalId: "5380630",
                     formId: "123749c9-2e68-411b-a5f0-cb9212c7ca4f",
@@ -114,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const popup = document.getElementById('popup');
         if (popup) {
             popup.style.display = 'block';
-            console.log("Popup displayed.");
             loadHubSpotForm();
         }
     }
@@ -123,15 +139,18 @@ document.addEventListener("DOMContentLoaded", function() {
         const popup = document.getElementById('popup');
         if (popup) {
             popup.style.display = 'none';
-            console.log("Popup dismissed.");
             localStorage.setItem('popupDismissedTime', Date.now().toString());
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const triggerPopupButton = document.getElementById('trigger-popup-button');
-        if (triggerPopupButton) {
-            triggerPopupButton.addEventListener('click', showPopup);
-        }
-    });
+    document.getElementById('trigger-popup-button')?.addEventListener('click', showPopup);
 });
+
+// Utility: Debounce Function
+function debounce(func, delay) {
+    let debounceTimer;
+    return function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(this, arguments), delay);
+    };
+}
