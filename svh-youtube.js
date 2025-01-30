@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     let players = {};
     let isVideoTriggered = false;
     let isYouTubeAPILoaded = false;
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const trigger = document.getElementById(triggerId);
             if (trigger) {
                 console.log(`Trigger found: ${triggerId}`);
-                trigger.addEventListener('click', function() {
+                trigger.addEventListener('click', function () {
                     console.log(`Trigger clicked: ${triggerId}`);
 
                     trigger.style.display = 'none';
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function initialisePlayer(playerId) {
         if (!isYouTubeAPILoaded) return;
 
-        const videoData = window.dynamicVideoData.find(data => data.playerId === playerId);
+        const videoData = window.dynamicVideoData?.find(data => data.playerId === playerId);
         if (!videoData) {
             console.error(`No video data found for ${playerId}`);
             return;
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    window.onYouTubeIframeAPIReady = function() {
+    window.onYouTubeIframeAPIReady = function () {
         console.log('YouTube API is ready.');
         isYouTubeAPILoaded = true;
 
@@ -97,12 +97,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function waitForDynamicData(callback, timeout = 100) {
+    function waitForDynamicData(callback, retries = 10) {
         if (window.dynamicVideoData && Array.isArray(window.dynamicVideoData)) {
             callback();
-        } else {
+        } else if (retries > 0) {
             console.warn('Dynamic video data not available yet, retrying...');
-            setTimeout(() => waitForDynamicData(callback, timeout), timeout);
+            setTimeout(() => waitForDynamicData(callback, retries - 1), 200);
+        } else {
+            console.error('Dynamic video data could not be loaded.');
         }
     }
 
