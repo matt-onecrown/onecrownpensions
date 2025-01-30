@@ -15,33 +15,37 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function setupTrigger(triggerId, playerId) {
-        const trigger = document.getElementById(triggerId);
+        setTimeout(() => {
+            const trigger = document.getElementById(triggerId);
+            if (trigger) {
+                console.log(`Trigger found: ${triggerId}`);
+                trigger.addEventListener('click', function() {
+                    console.log(`Trigger clicked: ${triggerId}`);
 
-        if (trigger && trigger.offsetParent !== null) { // Ensure trigger is visible
-            console.log(`Setting up trigger for ${playerId}`);
-            trigger.addEventListener('click', function() {
-                trigger.style.display = 'none';
-                isVideoTriggered = true;
+                    trigger.style.display = 'none';
+                    isVideoTriggered = true;
 
-                if (!isYouTubeAPILoaded) {
-                    console.log('YouTube API not loaded yet, queuing player initialisation:', playerId);
-                    pendingInitialisations.push(playerId);
-                    loadYouTubeAPI();
-                } else if (!players[playerId]) {
-                    console.log('API Loaded: Initialising Player:', playerId);
-                    initialisePlayer(playerId);
-                } else {
-                    console.log('Player already initialised, playing video:', playerId);
-                    players[playerId].playVideo();
-                }
-            });
-        } else {
-            console.warn(`Trigger ${triggerId} not found or not visible.`);
-        }
+                    if (!isYouTubeAPILoaded) {
+                        console.log('YouTube API not loaded yet, queuing player initialisation:', playerId);
+                        pendingInitialisations.push(playerId);
+                        loadYouTubeAPI();
+                    } else if (!players[playerId]) {
+                        console.log('API Loaded: Initialising Player:', playerId);
+                        initialisePlayer(playerId);
+                    } else {
+                        console.log('Player already initialised, playing video:', playerId);
+                        players[playerId].playVideo();
+                    }
+                });
+            } else {
+                console.warn(`Trigger ${triggerId} not found! Retrying...`);
+                setTimeout(() => setupTrigger(triggerId, playerId), 500);
+            }
+        }, 500);
     }
 
     function initialisePlayer(playerId) {
-        if (!isYouTubeAPILoaded) return; // Ensure API is fully loaded
+        if (!isYouTubeAPILoaded) return;
 
         const videoData = window.dynamicVideoData.find(data => data.playerId === playerId);
         if (!videoData) {
@@ -49,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const startTime = parseInt(videoData.startTime, 10) || 0; // Convert to integer
+        const startTime = parseInt(videoData.startTime, 10) || 0;
 
         console.log(`Initialising YouTube player for ${playerId}, Start Time: ${startTime}, Video ID: ${videoData.videoId}`);
 
@@ -57,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
             height: '100%',
             width: '100%',
             videoId: videoData.videoId,
-            playerVars: { 'rel': 0, 'autoplay': 0, 'controls': 1, 'start': startTime },
+            playerVars: { 'rel': 0, 'autoplay': 1, 'controls': 1, 'start': startTime },
             events: {
                 'onReady': onPlayerReady,
                 'onStateChange': onPlayerStateChange
@@ -88,12 +92,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
             ['video-trigger-1', 'video-trigger-2'].forEach(triggerId => {
                 const trigger = document.getElementById(triggerId);
-                if (trigger && trigger.offsetParent !== null) trigger.style.display = 'flex';
+                if (trigger) trigger.style.display = 'flex';
             });
         }
     }
 
-    // Ensure dynamic data is available before proceeding
     function waitForDynamicData(callback, timeout = 100) {
         if (window.dynamicVideoData && Array.isArray(window.dynamicVideoData)) {
             callback();
