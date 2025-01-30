@@ -1,6 +1,6 @@
 /* Flickity */
       .flickity-viewport {
-      width: 100%;
+      width: 100% !important;
       overflow: visible !important;
     }
       
