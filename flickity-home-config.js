@@ -1,7 +1,7 @@
 Webflow.push(function () {
     // Function to initialise Flickity carousel
-    function moveByFour(flickityInstance, direction) {
-        const nextIndex = flickityInstance.selectedIndex + 4 * direction;
+    function moveByThree(flickityInstance, direction) {
+        const nextIndex = flickityInstance.selectedIndex + 3 * direction;
         flickityInstance.select(nextIndex, false, true);
     }
 
@@ -18,16 +18,16 @@ Webflow.push(function () {
             ...options
         });
 
-        if (options.moveByFour) {
+        if (options.moveByThree) {
             const prevButton = element.querySelector(".flickity-prev-next-button.previous");
             const nextButton = element.querySelector(".flickity-prev-next-button.next");
             prevButton?.addEventListener("click", (event) => {
                 event.preventDefault();
-                moveByFour(carousel, -1);
+                moveByThree(carousel, -1);
             });
             nextButton?.addEventListener("click", (event) => {
                 event.preventDefault();
-                moveByFour(carousel, 1);
+                moveByThree(carousel, 1);
             });
         }
 
@@ -39,7 +39,7 @@ Webflow.push(function () {
     if (homeCarousel) {
         initFlickityCarousel(homeCarousel, {
             autoPlay: 3000,
-            moveByFour: true
+            moveByThree: true
         });
     }
 
@@ -47,7 +47,7 @@ Webflow.push(function () {
     const homeCarousel2 = document.querySelector("#homeCarousel2");
     if (homeCarousel2) {
         initFlickityCarousel(homeCarousel2, {
-            moveByFour: true
+            moveByThree: true
         });
     }
 
@@ -57,7 +57,7 @@ Webflow.push(function () {
         const featureCarouselObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    initFlickityCarousel(entry.target, { autoPlay: 3000, moveByFour: true });
+                    initFlickityCarousel(entry.target, { autoPlay: 3000, moveByThree: true });
                     featureCarouselObserver.unobserve(entry.target); // Only initialise once
                 }
             });
