@@ -3,35 +3,25 @@
       width: 100% !important;
       overflow: visible !important;
     }
-      /*
+
     .flickity-prev-next-button {
       width: 40px !important;
       height: 40px !important;
-    }
-    */
-     .flickity-prev-next-button {
-      width: 40px !important;
-      height: 100% !important;
-      border-radius: 0 !important;
-      transform: translateY(0%) !important;
-      top: 0% !important;
     }
 
     .flickity-button-icon {
       height: 20px !important;
       width: 20px !important;
       left: 25% !important;
-      top: 42% !important;
+      top: 27% !important;
     }
     
     .flickity-prev-next-button.previous {
       display: block !important;
-      left: 0px !important;
     }
 
   .flickity-prev-next-button.next {
       display: block !important;
-      right: 0px !important;
     }
     
     .flickity-page-dots {
