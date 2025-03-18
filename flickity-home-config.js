@@ -1,8 +1,8 @@
 Webflow.push(function () {
     // Function to initialise Flickity carousel
-    function moveByThree(flickityInstance, direction) {
-        const nextIndex = flickityInstance.selectedIndex + 3 * direction;
-        flickityInstance.select(nextIndex, false, false);
+    function moveByFour(flickityInstance, direction) {
+        const nextIndex = flickityInstance.selectedIndex + 4 * direction;
+        flickityInstance.select(nextIndex, true, true);
     }
 
     function initFlickityCarousel(element, options = {}) {
@@ -15,21 +15,19 @@ Webflow.push(function () {
             wrapAround: true,
             prevNextButtons: true,
             pageDots: false,
-            selectedAttraction: 0.02,
-            friction: 0.28,
             ...options
         });
 
-        if (options.moveByThree) {
+        if (options.moveByFour) {
             const prevButton = element.querySelector(".flickity-prev-next-button.previous");
             const nextButton = element.querySelector(".flickity-prev-next-button.next");
             prevButton?.addEventListener("click", (event) => {
                 event.preventDefault();
-                moveByThree(carousel, -1);
+                moveByFour(carousel, -1);
             });
             nextButton?.addEventListener("click", (event) => {
                 event.preventDefault();
-                moveByThree(carousel, 1);
+                moveByFour(carousel, 1);
             });
         }
 
@@ -41,7 +39,7 @@ Webflow.push(function () {
     if (homeCarousel) {
         initFlickityCarousel(homeCarousel, {
             autoPlay: 3000,
-            moveByThree: true
+            moveByFour: true
         });
     }
 
@@ -49,7 +47,7 @@ Webflow.push(function () {
     const homeCarousel2 = document.querySelector("#homeCarousel2");
     if (homeCarousel2) {
         initFlickityCarousel(homeCarousel2, {
-            moveByThree: true
+            moveByFour: true
         });
     }
 
@@ -59,7 +57,7 @@ Webflow.push(function () {
         const featureCarouselObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    initFlickityCarousel(entry.target, { autoPlay: 3000, moveByThree: true });
+                    initFlickityCarousel(entry.target, { autoPlay: 3000, moveByFour: true });
                     featureCarouselObserver.unobserve(entry.target); // Only initialise once
                 }
             });
