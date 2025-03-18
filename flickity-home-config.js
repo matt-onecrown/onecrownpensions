@@ -2,7 +2,7 @@ Webflow.push(function () {
     // Function to initialise Flickity carousel
     function moveByFour(flickityInstance, direction) {
         const nextIndex = flickityInstance.selectedIndex + 4 * direction;
-        flickityInstance.select(nextIndex);
+        flickityInstance.select(nextIndex, false, true);
     }
 
     function initFlickityCarousel(element, options = {}) {
@@ -21,8 +21,14 @@ Webflow.push(function () {
         if (options.moveByFour) {
             const prevButton = element.querySelector(".flickity-prev-next-button.previous");
             const nextButton = element.querySelector(".flickity-prev-next-button.next");
-            prevButton?.addEventListener("click", () => moveByFour(carousel, -1));
-            nextButton?.addEventListener("click", () => moveByFour(carousel, 1));
+            prevButton?.addEventListener("click", (event) => {
+                event.preventDefault();
+                moveByFour(carousel, -1);
+            });
+            nextButton?.addEventListener("click", (event) => {
+                event.preventDefault();
+                moveByFour(carousel, 1);
+            });
         }
 
         return carousel;
