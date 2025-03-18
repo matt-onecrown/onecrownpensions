@@ -37,7 +37,15 @@ Webflow.push(function () {
         });
     }
 
-    // 2. Lazy-load featureCarousel when it comes into view
+    // 2. Initialise homeCarousel2 without autoplay
+    const homeCarousel2 = document.querySelector("#homeCarousel2");
+    if (homeCarousel2) {
+        initFlickityCarousel(homeCarousel2, {
+            moveByFour: true
+        });
+    }
+
+    // 3. Lazy-load featureCarousel when it comes into view
     const featureCarousel = document.querySelector(".feature-carousel");
     if (featureCarousel) {
         const featureCarouselObserver = new IntersectionObserver(entries => {
