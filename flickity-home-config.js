@@ -2,7 +2,7 @@ Webflow.push(function () {
     // Function to initialise Flickity carousel
     function moveByThree(flickityInstance, direction) {
         const nextIndex = flickityInstance.selectedIndex + 3 * direction;
-        flickityInstance.select(nextIndex, false, true);
+        flickityInstance.select(nextIndex, true, true);
     }
 
     function initFlickityCarousel(element, options = {}) {
