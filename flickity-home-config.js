@@ -2,7 +2,7 @@ Webflow.push(function () {
     // Function to initialise Flickity carousel
     function moveByThree(flickityInstance, direction) {
         const nextIndex = flickityInstance.selectedIndex + 3 * direction;
-        flickityInstance.select(nextIndex, true, true);
+        flickityInstance.select(nextIndex, false, false);
     }
 
     function initFlickityCarousel(element, options = {}) {
@@ -15,6 +15,8 @@ Webflow.push(function () {
             wrapAround: true,
             prevNextButtons: true,
             pageDots: false,
+            selectedAttraction: 0.02,
+            friction: 0.28,
             ...options
         });
 
