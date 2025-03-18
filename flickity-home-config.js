@@ -50,35 +50,4 @@ Webflow.push(function () {
         }, { root: null, threshold: 0.1 });
         featureCarouselObserver.observe(featureCarousel);
     }
-
-    // 3. Initialise prevCarousels on #showMoreButton click
-    const showMoreButton = document.querySelector("#showMoreButton");
-    if (showMoreButton) {
-        showMoreButton.addEventListener("click", function () {
-            setTimeout(() => {
-                const carouselsToInit = ["#prevCarousel1", "#prevCarousel2", "#prevCarousel3"];
-                carouselsToInit.forEach(selector => {
-                    const element = document.querySelector(selector);
-                    if (element && !element.classList.contains("flickity-enabled")) {
-                        initFlickityCarousel(element, { moveByFour: selector === "#prevCarousel1" });
-                    }
-                });
-
-                // Media query-specific logic for prevCarousel3
-                const mediaQuery = window.matchMedia("(max-width: 1130px)");
-                function handleMediaQueryChange(e) {
-                    if (e.matches) {
-                        const prevCarousel3 = document.querySelector("#prevCarousel3");
-                        if (prevCarousel3 && !prevCarousel3.classList.contains("flickity-enabled")) {
-                            initFlickityCarousel(prevCarousel3);
-                        }
-                    }
-                }
-                mediaQuery.addEventListener("change", handleMediaQueryChange);
-                if (mediaQuery.matches) {
-                    handleMediaQueryChange(mediaQuery);
-                }
-            }, 100); // Adjust delay if necessary
-        });
-    }
 });
